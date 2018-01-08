@@ -88,7 +88,7 @@ Metrics/BlockLength:
   Enabled: true
   Exclude:
     - 'spec/**/*.rb'
-    - 'cognito-client.gemspec'
+    - 'cognito.gemspec'
 
 Lint/AmbiguousBlockAssociation:
   Enabled: true

@@ -3,11 +3,11 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cognito/client/version'
+require 'cognito/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'cognito-client'
-  spec.version       = Cognito::Client::VERSION
+  spec.name          = 'cognito'
+  spec.version       = Cognito::VERSION
   spec.authors       = ['Ilya Bylich']
   spec.email         = ['ibylich@gmail.com']
 
