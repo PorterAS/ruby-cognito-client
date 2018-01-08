@@ -1,4 +1,6 @@
-require "cognito/client/version"
+# frozen_string_literal: true
+
+require 'cognito/client/version'
 
 module Cognito
   module Client
