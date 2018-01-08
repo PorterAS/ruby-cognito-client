@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ilya Bylich"]
   spec.email         = ["ibylich@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = %q{Porter client for Amazon cognito.}
+  spec.description   = %q{A shared client for an amazon cognito. Used by auth-server and BE.}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -32,4 +32,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+
+  spec.add_dependency 'dry-container'
+  spec.add_dependency 'dry-transaction'
+  spec.add_dependency 'dry-monads'
+  spec.add_dependency 'dry-auto_inject'
+
+  spec.add_dependency 'aws-sdk-cognitoidentityprovider'
+  spec.add_dependency 'jwt'
+  spec.add_dependency 'json-jwt'
 end
