@@ -5,16 +5,18 @@ require 'cognito/import'
 module Cognito
   module Operations
     class Signup
-      include ::Cognito::Import['aws_client', 'config', 'support.secret_hash']
+      include ::Cognito::Import['aws_client', 'config', 'support.secret_hash', 'void']
       include Dry::Monads::Either::Mixin
 
       def call(email:, password:, **)
-        aws_client.sign_up(
+        params = {
           client_id: config[:client_id],
           secret_hash: secret_hash[email],
           username: email,
           password: password
-        ).bind { Right(success: true) }
+        }
+
+        aws_client.sign_up(params).bind { Right(void) }
       end
     end
   end

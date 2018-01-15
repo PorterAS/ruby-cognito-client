@@ -8,6 +8,8 @@ module Cognito
     include Dry::Monads::Result::Mixin
 
     def call(token)
+      return Failure(reason: :no_access_token) unless token
+
       jwks.decode(token)
 
       Success(token)

@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install cognito-client
+    $ gem install cognito
 
 ## Usage
 
@@ -24,28 +24,34 @@ password = 'password'
 
 # sign up
 Cognito::Container['operations.sign_up'].call(email: email, password: password)
-# => Success({ success: true })
+# => Success(Cognito::VOID)
 
 # confirm sign up
 Cognito::Container['operations.configm_sign_up'].call(email: email, code: 'code-from-the-email')
-# => Success({ success: true })
+# => Success(Cognito::VOID)
 
 # sign in
 Cognito::Container['operations.sign_in'].call(email: email, password: password)
-# => Success({ access_token: 'token', refresh_token: 'token' })
+# => Success(access_token: 'token', refresh_token: 'token')
 
 # validate token
 Cognito::Container['operations.validate_token'].call(access_token: 'token', refresh_token: 'token')
-# => Success({ access_token: 'new-token' })
+# => Success(access_token: 'potentially-new-token')
+
+# user data
+Cognito::Container['operations.me'].call(access_token: 'token', refresh_token: 'token')
+# => Success(user: #<Cognito::User ...>, access_token: 'potentially-new-token')
 ```
 
 All operations can (and should) be DI-ed by writing
 ``` ruby
 class YourClass
-  include Cognito::Import['operations.sign_in', ..other operations if needed..]
+  include Cognito::Import['operations.validate_token', ..other operations if needed..]
 
   def call
-    sign_in.call(email: email, password: password)
+    validate_token.call(payload).bind do |access_token:, refresh_token:|
+      # ... your code ...
+    end
   end
 end
 ```

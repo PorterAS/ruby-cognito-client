@@ -5,7 +5,7 @@ require 'cognito/import'
 module Cognito
   module Operations
     class ConfirmSignup
-      include ::Cognito::Import['aws_client', 'config', 'support.secret_hash']
+      include ::Cognito::Import['aws_client', 'config', 'support.secret_hash', 'void']
       include Dry::Monads::Either::Mixin
 
       def call(email:, code:)
@@ -17,7 +17,7 @@ module Cognito
           force_alias_creation: false
         }
 
-        aws_client.confirm_sign_up(params).bind { Right(success: true) }
+        aws_client.confirm_sign_up(params).bind { Right(void) }
       end
     end
   end

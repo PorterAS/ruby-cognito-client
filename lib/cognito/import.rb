@@ -7,6 +7,7 @@ module Cognito
     register :config,     -> { Cognito.config }
     register :aws_client, -> { Cognito.client }
     register :jwks,       -> { Cognito.jwks }
+    register :void,       -> { Cognito::VOID }
 
     def self.callable(&block)
       ->(*args) {

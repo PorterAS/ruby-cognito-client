@@ -14,6 +14,7 @@ require 'open-uri'
 require 'cognito/import'
 require 'cognito/aws_key'
 require 'cognito/monad_client'
+require 'cognito/void'
 
 module Cognito
   def self.client
