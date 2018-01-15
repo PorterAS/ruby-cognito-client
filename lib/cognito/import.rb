@@ -4,9 +4,9 @@ module Cognito
   class Container
     extend Dry::Container::Mixin
 
-    register :config,     -> { Cognito.config }
-    register :aws_client, -> { Cognito.client }
-    register :jwks,       -> { Cognito.jwks }
+    register :config,     -> { Cognito::Config.new }
+    register :aws_client, -> { Cognito::MonadAwsClient.new }
+    register :jwks,       -> { Cognito::JWKS.new }
     register :void,       -> { Cognito::VOID }
 
     def self.callable(&block)
@@ -16,17 +16,15 @@ module Cognito
       }
     end
 
-    namespace :support do
-      register :secret_hash,        callable { Cognito::SecretHash.new }
-      register :validate_jwt,       callable { Cognito::ValidateJWT.new }
-      register :renew_access_token, callable { Cognito::RenewAccessToken.new }
-    end
+    register :secret_hash,      callable { Cognito::SecretHash.new }
+    register :refresh_session,  callable { Cognito::RefreshSession.new }
 
     namespace :operations do
       register :signup,         callable { Cognito::Operations::Signup.new }
+      register :add_to_group,   callable { Cognito::Operations::AddToGroup.new }
       register :confirm_signup, callable { Cognito::Operations::ConfirmSignup.new }
       register :signin,         callable { Cognito::Operations::Signin.new }
-      register :validate_token, callable { Cognito::Operations::ValidateToken.new }
+      register :me,             callable { Cognito::Operations::Me.new }
     end
   end
 
@@ -34,10 +32,10 @@ module Cognito
 end
 
 require 'cognito/support/secret_hash'
-require 'cognito/support/validate_jwt'
-require 'cognito/support/renew_access_token'
+require 'cognito/support/refresh_session'
 
 require 'cognito/operations/signup'
+require 'cognito/operations/add_to_group'
 require 'cognito/operations/confirm_signup'
 require 'cognito/operations/signin'
-require 'cognito/operations/validate_token'
+require 'cognito/operations/me'

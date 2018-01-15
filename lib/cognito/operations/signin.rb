@@ -5,32 +5,21 @@ require 'cognito/import'
 module Cognito
   module Operations
     class Signin
-      include ::Cognito::Import['aws_client', 'config', 'support.secret_hash']
+      include ::Cognito::Import['aws_client']
       include Dry::Monads::Either::Mixin
 
       def call(email:, password:)
-        auth_parameters = {
-          'USERNAME' => email,
-          'PASSWORD' => password,
-          'SECRET_HASH' => secret_hash[email]
-        }
+        aws_client.signin(email: email, password: password).bind do |response|
+          auth = response.authentication_result
 
-        aws_client.admin_initiate_auth(**params, auth_parameters: auth_parameters).bind do |response|
-          access_token = response.authentication_result.access_token
-          refresh_token = response.authentication_result.refresh_token
+          session = ::Cognito::Session.new(
+            access_token:  auth.access_token,
+            id_token:      auth.id_token,
+            refresh_token: auth.refresh_token
+          )
 
-          Right(access_token: access_token, refresh_token: refresh_token)
+          Right(session)
         end
-      end
-
-      private
-
-      def params
-        {
-          auth_flow: 'ADMIN_NO_SRP_AUTH',
-          user_pool_id: config[:user_pool_id],
-          client_id: config[:client_id]
-        }
       end
     end
   end

@@ -4,14 +4,14 @@ require 'cognito/import'
 
 module Cognito
   module Operations
-    class ConfirmSignup
+    class AddToGroup
       include ::Cognito::Import['aws_client', 'void']
       include Dry::Monads::Either::Mixin
 
-      def call(email:, code:)
-        aws_client.confirm_signup(
-          email: email,
-          code: code
+      def call(cognito_id:, group:)
+        aws_client.add_to_group(
+          cognito_id: cognito_id,
+          group: group
         ).bind { Right(void) }
       end
     end

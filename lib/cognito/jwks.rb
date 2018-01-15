@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Cognito
-  class AwsKey
+  class JWK
     attr_reader :jwk, :rsa_public
 
     def initialize(jwk)
@@ -14,9 +14,13 @@ module Cognito
     end
   end
 
-  class AwsKeyChain
-    def initialize(url:)
-      @keys = JSON.parse(open(url).read)['keys'].map { |key| AwsKey.new(key) }
+  class JWKS
+    include Cognito::Import['config']
+
+    def initialize(*)
+      super
+      url = "https://cognito-idp.#{config[:region]}.amazonaws.com/#{config[:user_pool_id]}/.well-known/jwks.json"
+      @keys = JSON.parse(open(url).read)['keys'].map { |key| JWK.new(key) }
     end
 
     def decode(token)
