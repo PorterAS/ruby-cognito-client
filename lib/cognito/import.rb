@@ -25,6 +25,8 @@ module Cognito
       register :confirm_signup, callable { Cognito::Operations::ConfirmSignup.new }
       register :signin,         callable { Cognito::Operations::Signin.new }
       register :me,             callable { Cognito::Operations::Me.new }
+      register :update,         callable { Cognito::Operations::Update.new }
+      register :verify_email,   callable { Cognito::Operations::VerifyEmail.new }
     end
   end
 
@@ -39,3 +41,5 @@ require 'cognito/operations/add_to_group'
 require 'cognito/operations/confirm_signup'
 require 'cognito/operations/signin'
 require 'cognito/operations/me'
+require 'cognito/operations/update'
+require 'cognito/operations/verify_email'

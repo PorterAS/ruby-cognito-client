@@ -71,6 +71,14 @@ module Cognito
         access_token: access_token
       )
     end
+
+    def verify_email(access_token:, code:)
+      @aws.verify_user_attribute(
+        access_token: access_token,
+        attribute_name: 'email',
+        code: code
+      )
+    end
   end
 
   class MonadAwsClient < PlainAwsClient
@@ -92,5 +100,7 @@ module Cognito
     eitherify :confirm_signup
     eitherify :signin
     eitherify :refresh
+    eitherify :update
+    eitherify :verify_email
   end
 end
