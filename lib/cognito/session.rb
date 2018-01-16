@@ -22,6 +22,13 @@ module Cognito
       [access_token, id_token].all?(&:valid?) && !refresh_token.empty? && !cognito_id.empty?
     end
 
+    def to_h
+      {
+        access_token: access_token.value,
+        id_token:     id_token.value
+      }
+    end
+
     EMPTY = new.freeze
 
     def with(access_token: nil, id_token: nil, refresh_token: nil, cognito_id: nil)

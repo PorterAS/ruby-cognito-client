@@ -79,6 +79,24 @@ module Cognito
         code: code
       )
     end
+
+    def forgot_password(email:)
+      @aws.forgot_password(
+        client_id: config[:client_id],
+        secret_hash: secret_hash[email],
+        username: email
+      )
+    end
+
+    def confirm_forgot_password(email:, password:, code:)
+      @aws.confirm_forgot_password(
+        client_id: config[:client_id],
+        secret_hash: secret_hash[email],
+        username: email,
+        confirmation_code: code,
+        password: password
+      )
+    end
   end
 
   class MonadAwsClient < PlainAwsClient
@@ -89,7 +107,7 @@ module Cognito
             response = super(params)
             Right(response)
           rescue Aws::CognitoIdentityProvider::Errors::ServiceError => e
-            Left(error: e.message)
+            Left(reason: e.message)
           end
         end
       end)
@@ -102,5 +120,7 @@ module Cognito
     eitherify :refresh
     eitherify :update
     eitherify :verify_email
+    eitherify :forgot_password
+    eitherify :confirm_forgot_password
   end
 end

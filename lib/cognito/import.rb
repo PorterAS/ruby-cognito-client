@@ -20,13 +20,15 @@ module Cognito
     register :refresh_session,  callable { Cognito::RefreshSession.new }
 
     namespace :operations do
-      register :signup,         callable { Cognito::Operations::Signup.new }
-      register :add_to_group,   callable { Cognito::Operations::AddToGroup.new }
-      register :confirm_signup, callable { Cognito::Operations::ConfirmSignup.new }
-      register :signin,         callable { Cognito::Operations::Signin.new }
-      register :me,             callable { Cognito::Operations::Me.new }
-      register :update,         callable { Cognito::Operations::Update.new }
-      register :verify_email,   callable { Cognito::Operations::VerifyEmail.new }
+      register :signup,                  callable { Cognito::Operations::Signup.new }
+      register :add_to_group,            callable { Cognito::Operations::AddToGroup.new }
+      register :confirm_signup,          callable { Cognito::Operations::ConfirmSignup.new }
+      register :signin,                  callable { Cognito::Operations::Signin.new }
+      register :me,                      callable { Cognito::Operations::Me.new }
+      register :update,                  callable { Cognito::Operations::Update.new }
+      register :verify_email,            callable { Cognito::Operations::VerifyEmail.new }
+      register :forgot_password,         callable { Cognito::Operations::ForgotPassword.new }
+      register :confirm_forgot_password, callable { Cognito::Operations::ConfirmForgotPassword.new }
     end
   end
 
@@ -43,3 +45,5 @@ require 'cognito/operations/signin'
 require 'cognito/operations/me'
 require 'cognito/operations/update'
 require 'cognito/operations/verify_email'
+require 'cognito/operations/forgot_password'
+require 'cognito/operations/confirm_forgot_password'
