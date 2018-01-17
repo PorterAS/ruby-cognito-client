@@ -41,7 +41,7 @@ Make sure that provided group is defined in Cognito.
 # => Right(Cognito::VOID)
 ```
 
-## Signup
+## Confirm Signup
 
 To confirm pending user you need to pass `email` and a `code` from the email:
 
@@ -122,6 +122,20 @@ When you update an email it's also required to verify it.
 ``` ruby
 > Cognito::Container['operations.verify_email'].call(session: <session>, code: <code from the email>)
 # => Right(<new session>)
+```
+
+## Reset a password
+
+``` ruby
+> Cognito::Container['operations.reset_password'].call(email: <email>)
+# => Right(Cognito::VOID)
+```
+
+## Confirm resetting a password
+
+``` ruby
+> Cognito::Container['operations.confirm_reset_password'].call(email: <email>, password: <new password>, code: <code from the email>)
+# => Right(Cognito::VOID)
 ```
 
 ## DI

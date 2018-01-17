@@ -80,7 +80,7 @@ module Cognito
       )
     end
 
-    def forgot_password(email:)
+    def reset_password(email:)
       @aws.forgot_password(
         client_id: config[:client_id],
         secret_hash: secret_hash[email],
@@ -88,7 +88,7 @@ module Cognito
       )
     end
 
-    def confirm_forgot_password(email:, password:, code:)
+    def confirm_reset_password(email:, password:, code:)
       @aws.confirm_forgot_password(
         client_id: config[:client_id],
         secret_hash: secret_hash[email],
@@ -120,7 +120,7 @@ module Cognito
     eitherify :refresh
     eitherify :update
     eitherify :verify_email
-    eitherify :forgot_password
-    eitherify :confirm_forgot_password
+    eitherify :reset_password
+    eitherify :confirm_reset_password
   end
 end

@@ -5,6 +5,10 @@ module Cognito
     def inspect
       '#<Cognito::VOID>'
     end
+
+    def to_json
+      {}.to_json
+    end
   end
 
   VOID = Void.new.freeze

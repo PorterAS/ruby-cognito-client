@@ -4,12 +4,12 @@ require 'cognito/import'
 
 module Cognito
   module Operations
-    class ConfirmForgotPassword
+    class ConfirmResetPassword
       include ::Cognito::Import['aws_client', 'void']
       include Dry::Monads::Either::Mixin
 
       def call(email:, password:, code:)
-        aws_client.confirm_forgot_password(
+        aws_client.confirm_reset_password(
           email: email,
           password: password,
           code: code
