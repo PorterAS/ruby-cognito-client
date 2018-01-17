@@ -17,16 +17,17 @@ module Cognito
   class JWKS
     include Cognito::Import['config']
 
-    def initialize(*)
-      super
-      url = "https://cognito-idp.#{config[:region]}.amazonaws.com/#{config[:user_pool_id]}/.well-known/jwks.json"
-      @keys = JSON.parse(open(url).read)['keys'].map { |key| JWK.new(key) }
+    def keys
+      @keys ||= begin
+        url = "https://cognito-idp.#{config[:region]}.amazonaws.com/#{config[:user_pool_id]}/.well-known/jwks.json"
+        JSON.parse(open(url).read)['keys'].map { |key| JWK.new(key) }
+      end
     end
 
     def decode(token)
       _payload, headers = JWT.decode(token, nil, false) # without verification
       used_kid = headers['kid']
-      used_key = @keys.detect { |key| key.id == used_kid }
+      used_key = keys.detect { |key| key.id == used_kid }
 
       raise JWT::VerificationError, 'Signature verification raised' unless used_key
 
